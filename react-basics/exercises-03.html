@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Exercises</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+
+    <script type="text/babel">
+
+      function Counter({count, setCount}) {
+        function updateCount() {
+          setCount(count + 1);
+        }
+
+        return(
+          <button onClick={updateCount}>
+            Clicked {count} 
+            {count === 1 ? ' time' : ' times'}
+          </button>
+        )
+      }
+
+      function ResetCount({setCount1, setCount2}) {
+        function resetCount() {
+          setCount1(0);
+          setCount2(0);
+        }
+
+        return(
+          <button onClick={resetCount}>Reset</button>
+        )
+
+      }
+
+      function App() {
+        const [count1, setCount1] = React.useState(0);
+        const [count2, setCount2] = React.useState(0);
+
+        return(
+          <>
+            <Counter 
+              count = {count1}
+              setCount = {setCount1}
+            />
+            <Counter 
+              count = {count2}
+              setCount = {setCount2}
+            />
+            <ResetCount 
+              setCount1 = {setCount1}
+              setCount2 = {setCount2}
+            />
+          </>
+        )
+      }
+
+    
+      const container = document.querySelector('.js-container');
+      const root = ReactDOM.createRoot(container);  
+      root.render(<App />);
+
+    </script>
+  </body>
+</html>

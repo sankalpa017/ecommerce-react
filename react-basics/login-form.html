@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Exercise</title>
+    <style>
+      body{
+        font-family: arial;
+      }
+
+      input{
+        padding: 10px 15px;
+        border-radius: 4px;
+      }
+
+      button{
+        background-color: rgb(0, 123, 255);
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        margin-right: 6px;
+        border-radius: 5px;
+      }
+
+      .email-input{
+        margin-bottom: 10px;
+      }
+
+      .password-input{
+        display: flex;
+        margin-bottom: 20px;
+        column-gap: 10px;
+      }
+
+      .show-password-button{
+        cursor: pointer;
+        color: white;
+        background-color: black;
+        padding: 5px 10px;
+        
+      }
+
+      .greeting{
+        font-size: 25px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+
+      function LoginForm() {
+        const [showPassword, setShowPassword] = React.useState(false);
+        // const [password, setPassword] = React.useState('');
+        const passwordInputRef = React.useRef(null);
+
+        function changePasswordVisibility() {
+          const passwordInputElem = passwordInputRef.current;
+          if (passwordInputElem.value) {
+            setShowPassword(!showPassword);
+          }
+        }
+
+        /*function updateButton() {
+          const passwordInputElem = passwordInputRef.current
+          if (!passwordInputElem.value) {
+            setShowPassword(false);
+          }
+        }*/
+
+        function updatePassword(event) {
+          if(event.target.value === '') {
+            setShowPassword(false);
+          }
+          setPassword(event.target.value)
+        }
+
+        return (
+          <>
+            <div className="email-input">
+              <input placeholder="Email" />
+            </div>
+            <div className="password-input">
+              <input 
+                placeholder="Password" 
+                type={showPassword ? 'text' : 'password'} 
+                onChange={updatePassword}
+                value = { password }
+                ref={passwordInputRef}
+                //onChange={updateButton}
+              />
+              <button 
+                onClick={changePasswordVisibility}
+                className="show-password-button"
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
+            <button>Login</button>
+            <button>Sign up</button>
+          </>
+        )
+      }
+      
+      function App() {
+        return(
+          <>
+            <p className="greeting">Hello, welcome to my website</p>
+            <LoginForm />
+          </>
+        )
+      }
+
+      const container = document.querySelector('.js-container');
+      const root = ReactDOM.createRoot(container);
+      root.render(<App />);
+    </script>
+  </body>
+</html>

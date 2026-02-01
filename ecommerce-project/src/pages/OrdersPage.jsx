@@ -6,6 +6,7 @@ export function OrdersPage() {{
   return (
     <>
       <title>Orders</title>
+      <link rel="icon" href="images/orders-favicon.png" />
       <Header />
 
       <div className="orders-page">

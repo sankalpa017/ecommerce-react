@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import axios from 'axios';
 import { useEffect, useState, Fragment } from 'react';
 import {formatCurrency} from '../../utils/money'
-import BuyAgainIcon from '../assets/images/icons/buy-again.png';
+import BuyAgainIcon from '../../assets/images/icons/buy-again.png';
 import './OrdersPage.css';
 
 export function OrdersPage({cart}) {{

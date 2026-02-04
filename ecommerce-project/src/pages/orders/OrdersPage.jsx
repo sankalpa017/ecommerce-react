@@ -1,9 +1,9 @@
-import { Header } from '../components/Header';
+import { Header } from '../../components/Header';
 import { Link } from 'react-router';
 import dayjs from 'dayjs';
 import axios from 'axios';
 import { useEffect, useState, Fragment } from 'react';
-import {formatCurrency} from '../utils/money'
+import {formatCurrency} from '../../utils/money'
 import BuyAgainIcon from '../assets/images/icons/buy-again.png';
 import './OrdersPage.css';
 

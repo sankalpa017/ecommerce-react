@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
-import { HomePage } from './pages/HomePage';
-import { OrdersPage } from './pages/OrdersPage';
+import { HomePage } from './pages/home/HomePage';
+import { OrdersPage } from './pages/orders/OrdersPage';
 import { CheckoutPage } from './pages/checkout/CheckoutPage';
 import { TrackingPage } from './pages/TrackingPage';
 import { PageNotFound } from './pages/PageNotFound';

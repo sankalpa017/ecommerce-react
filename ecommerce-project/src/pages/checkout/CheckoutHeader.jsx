@@ -4,7 +4,11 @@ import SuperSimpleDevLogo from '../../assets/images/logo.png';
 import MobileLogo from '../../assets/images/mobile-logo.png';
 import CheckoutLockIcon from '../../assets/images/icons/checkout-lock-icon.png';
 
-export function CheckoutHeader() {
+export function CheckoutHeader({ cart }) {
+  let totalCartItems = 0;
+  cart.forEach((cartItem) => {
+    totalCartItems += cartItem.quantity;
+  })
   return (
     <div className="checkout-header">
       <div className="header-content">
@@ -17,7 +21,7 @@ export function CheckoutHeader() {
 
         <div className="checkout-header-middle-section">
           Checkout (<Link className="return-to-home-link"
-            to="/">3 items</Link>)
+            to="/">{totalCartItems} items</Link>)
         </div>
 
         <div className="checkout-header-right-section">

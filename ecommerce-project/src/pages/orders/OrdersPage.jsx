@@ -1,6 +1,5 @@
 import { Header } from '../../components/Header';
-import { CartItemDetails } from './CartItemDetails';
-import { OrderHeader } from './OrderHeader';
+import { OrdersGrid } from './OrdersGrid';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import './OrdersPage.css';
@@ -26,20 +25,7 @@ export function OrdersPage({cart}) {{
       <div className="orders-page">
         <div className="page-title">Your Orders</div>
 
-        <div className="orders-grid">
-          {orders && orders.map((order) => {
-            return (
-              <div key={order.id} className="order-container">
-
-                <OrderHeader order={order} />
-
-                <div className="order-details-grid">
-                  <CartItemDetails order={order} />                
-                </div>
-              </div>  
-            );
-          })}
-        </div>
+        <OrdersGrid orders={orders} />
       </div>
     </>
   );

@@ -1,47 +1,94 @@
 import { Header } from '../components/Header';
-import { Link } from 'react-router';
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router';
+import axios from 'axios';
+import dayjs from 'dayjs';
 import './TrackingPage.css';
  
-export function TrackingPage() {
+export function TrackingPage({ cart }) {
+  const {orderId, productId} = useParams();
+  const [order, setOrder] = useState(null);
+  
+  useEffect(() => {
+    const fetchTrackingData = async () => {
+      const response = await axios(`/api/orders/${orderId}?expand=products`);
+      setOrder(response.data);
+    }
+
+    fetchTrackingData();
+  }, [orderId]);
+
+  if (!order) {
+    return null;
+  }
+
+  const matchedProduct = order.products.find((productItem) => {
+    return productItem.productId === productId;
+  })
+
+  if (!matchedProduct) {
+    return null;
+  }
+
+  const totalDeliveryTimeMs = matchedProduct.estimatedDeliveryTimeMs - order.orderTimeMs;
+
+  const timePassedMs = dayjs().valueOf() - order.orderTimeMs;
+
+  const deliveryProgress = Math.min(timePassedMs / totalDeliveryTimeMs * 100, 100);
+
+  let isPreparing = false, isShipped = false, isDelivered = false;
+  if (deliveryProgress < 33) {
+    isPreparing = true;
+  } else if (deliveryProgress >= 33 && deliveryProgress < 100) {
+    isShipped = true;
+  } else if (deliveryProgress === 100) {
+    isDelivered = true;
+  }
+
   return (
     <>
       <title>Product Tracking</title>
       <link rel="icon" href="images/tracking-favicon.png" />
-      <Header />
-      <div class="tracking-page">
-        <div class="order-tracking">
-          <Link class="back-to-orders-link link-primary" to="/orders">
+      <Header cart={cart} />
+      <div className="tracking-page">
+        <div className="order-tracking">
+          <Link className="back-to-orders-link link-primary" to="/orders">
             View all orders
           </Link>
 
-          <div class="delivery-date">
-            Arriving on Monday, June 13
+          <div className="delivery-date">
+            {
+              deliveryProgress === 100
+              ? 'Delivered on '
+              : 'Arriving on '
+            } 
+            {dayjs(matchedProduct.estimatedDeliveryTimeMs).format('dddd, MMMM D')} 
           </div>
 
-          <div class="product-info">
-            Black and Gray Athletic Cotton Socks - 6 Pairs
+          <div className="product-info">
+            {matchedProduct.product.name}
           </div>
 
-          <div class="product-info">
-            Quantity: 1
+          <div className="product-info">
+            Quantity: {matchedProduct.quantity}
           </div>
 
-          <img class="product-image" src="images/products/athletic-cotton-socks-6-pairs.jpg" />
+          <img className="product-image" src={matchedProduct.product.image} />
 
-          <div class="progress-labels-container">
-            <div class="progress-label">
+          <div className="progress-labels-container">
+            <div className={`progress-label ${isPreparing && 'current-status'}`}>
               Preparing
             </div>
-            <div class="progress-label current-status">
+            <div className={`progress-label ${isShipped && 'current-status'}`}>
               Shipped
             </div>
-            <div class="progress-label">
+            <div className={`progress-label ${isDelivered && 'current-status'}`}>
               Delivered
             </div>
           </div>
 
-          <div class="progress-bar-container">
-            <div class="progress-bar"></div>
+          <div className="progress-bar-container">
+            <div className="progress-bar" style={{width: `${deliveryProgress}%`}}></div>
           </div>
         </div>
       </div>

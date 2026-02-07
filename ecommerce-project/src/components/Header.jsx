@@ -1,11 +1,31 @@
 import './header.css';
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate, useSearchParams } from 'react-router';
+import { useState } from 'react';
 import SuperSimpleDevLogo from '../assets/images/logo-white.png';
 import MobileLogo from '../assets/images/mobile-logo-white.png';
 import CartIcon from '../assets/images/icons/cart-icon.png';
 import SearchIcon from '../assets/images/icons/search-icon.png';
 
 export function Header({cart}) {
+  const [searchParams] = useSearchParams();
+  const search = searchParams.get('search');  
+  const [keyword, setKeyWord] = useState(search || '');
+
+  const updateKeyword = (event) => {
+    setKeyWord(event.target.value);
+  }
+
+  const navigate = useNavigate();
+  const searchKeyword = () => {
+    navigate(`/?search=${keyword}`);
+  }
+
+  const checkKey = (event) => {
+    if (event.key === 'Enter') {
+      searchKeyword();
+    }
+  }
+
   let totalCartItems = 0;
   cart.forEach((cartItem) => {
     totalCartItems += cartItem.quantity;
@@ -23,9 +43,14 @@ export function Header({cart}) {
       </div>
 
       <div className="middle-section">
-        <input className="search-bar" type="text" placeholder="Search" />
+        <input className="search-bar" type="text" placeholder="Search" value={keyword} 
+          onChange={updateKeyword}
+          onKeyDown={checkKey}
+        />
 
-        <button className="search-button">
+        <button className="search-button"
+          onClick={searchKeyword}
+        >
           <img className="search-icon" src={SearchIcon} />
         </button>
       </div>

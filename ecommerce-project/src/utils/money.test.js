@@ -17,6 +17,6 @@ describe('formatCurrency', () => {
   });
 
   it('formats 2000.4 cents as $20.00', () => {
-    expect(formatCurrency(2000.4)).toBe('$20.00');
+    expect(formatCurrency(2000.4)).toBe('$20.00'); 
   })
 })

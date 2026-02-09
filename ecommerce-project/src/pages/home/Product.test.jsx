@@ -1,6 +1,6 @@
 import { it, describe, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import userEvents from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import { Product } from './Product';
 import axios from 'axios';
 
@@ -43,7 +43,7 @@ describe('Product component', () => {
   it('adds a product to the cart', async () => {
     render(<Product product={product} loadCart={loadCart} />);
 
-    const user = userEvents.setup();
+    const user = userEvent.setup();
 
     const addToCartButton = screen.getByTestId('add-to-cart-button')
 

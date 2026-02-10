@@ -15,11 +15,11 @@ export function HomePage({cart, loadCart}) {
   useEffect(() => {
     const getProducts = async () => {
       const response = 
-      keyword ? await axios.get(`/api/products?search=${keyword}`) 
-      : await axios.get('/api/products');
+        keyword ? await axios.get(`/api/products?search=${keyword}`) 
+        : await axios.get('/api/products');
       setProducts(response.data);
     }
-
+    
     getProducts();
   }, [keyword]);
 

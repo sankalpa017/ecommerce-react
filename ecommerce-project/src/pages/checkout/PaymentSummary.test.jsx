@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { screen, render, within } from '@testing-library/react';
 import { PaymentSummary } from './PaymentSummary';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter, useLocation } from 'react-router';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
-import { Location } from '../../components/Location';
+
 
 vi.mock('axios');
 
@@ -39,7 +39,7 @@ describe('Payment Summary', () => {
     expect(
       within(paymentSummaryRows[0]).getByText('$42.75')
     ).toBeInTheDocument();
-    
+
     expect(paymentSummaryRows[0]).toHaveTextContent('(3)')
     expect(paymentSummaryRows[1]).toHaveTextContent('$4.99');
     expect(paymentSummaryRows[2]).toHaveTextContent('$47.74');
@@ -48,6 +48,15 @@ describe('Payment Summary', () => {
   });
 
   it('places order', async () => {
+    function Location() {
+      const location = useLocation();
+      return (
+        <div data-testid="url-path">
+          {location.pathname}
+        </div>
+      );
+    }
+    
     render(
       <MemoryRouter>
         <PaymentSummary paymentSummary={paymentSummary} loadCart={loadCart} />
@@ -61,7 +70,7 @@ describe('Payment Summary', () => {
 
     expect(axios.post).toHaveBeenCalledWith('/api/orders');
     expect(loadCart).toHaveBeenCalled();
-    
+
     const urlPath = screen.getByTestId('url-path');
     expect(urlPath).toHaveTextContent('/orders');
   });

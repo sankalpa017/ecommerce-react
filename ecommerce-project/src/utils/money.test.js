@@ -18,5 +18,13 @@ describe('formatCurrency', () => {
 
   it('formats 2000.4 cents as $20.00', () => {
     expect(formatCurrency(2000.4)).toBe('$20.00'); 
+  });
+  
+  it('formats 0 cents as $0.00', () => {
+    expect(formatCurrency(0)).toBe('$0.00');
+  });
+
+  it('formats -999 cents as -$9.99', () => {
+    expect(formatCurrency(-999)).toBe('-$9.99');
   })
 })

@@ -15,6 +15,6 @@ export default defineConfig({
     }
   },
   build: {
-    outDir: '../ecommerce-backend-ai-main/dist'
+    outDir: '../ecommerce-backend/dist'
   }
 })

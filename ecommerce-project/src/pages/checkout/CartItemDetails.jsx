@@ -12,12 +12,12 @@ export function CartItemDetails({ cartItem, loadCart }) {
   }, [updating]);
 
   const updateQuantity = async () => {
-    if (cartQuantity <= 0 || cartQuantity >= 100) {
-      setCartQuantity(cartItem.quantity);
-      setUpdating(false);
-      return;
-    }
     if (updating) {
+      if (cartQuantity <= 0 || cartQuantity >= 100) {
+        setCartQuantity(cartItem.quantity);
+        setUpdating(false);
+        return;
+      }
       await axios.put(`/api/cart-items/${cartItem.productId}`, {
         quantity: Number(cartQuantity)
       });
@@ -35,9 +35,13 @@ export function CartItemDetails({ cartItem, loadCart }) {
   return (
     <>
       <img className="product-image"
-        src={cartItem.product.image} />
+        src={cartItem.product.image} 
+        data-testid="product-image"  
+      />
 
-      <div className="cart-item-details">
+      <div className="cart-item-details"
+        data-testid="cart-item-details"
+      >
         <div className="product-name">
           {cartItem.product.name}
         </div>
@@ -51,6 +55,7 @@ export function CartItemDetails({ cartItem, loadCart }) {
               ref={inputRef}
               type="number"
               className="update-quantity-input"
+              data-testid="update-quantity-input"
               style={{display: updating ? 'inline-block' : 'none'}}
               value={cartQuantity}
               onChange={(event) => {
@@ -72,12 +77,14 @@ export function CartItemDetails({ cartItem, loadCart }) {
             </span>
           </span>
           <span className="update-quantity-link link-primary"
+            data-testid="update-quantity-link"
             onClick={updateQuantity}
             style={{display: updating ? 'none' : 'inline-block'}}
           >
             Update
           </span>
           <span className="link-primary"
+            data-testid="save-quantity-link"
             onClick={updateQuantity}
             style={{display: updating ? 'inline-block' : 'none'}}
           >
@@ -85,6 +92,7 @@ export function CartItemDetails({ cartItem, loadCart }) {
           </span>
           <span className="delete-quantity-link link-primary"
             onClick={deleteCartItem}
+            data-testid= 'delete-button'
           >
             Delete
           </span>
